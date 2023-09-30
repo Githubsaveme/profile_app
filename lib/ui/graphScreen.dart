@@ -15,7 +15,9 @@ class _GraphScreenState extends State<GraphScreen> {
   List<YearModel> yearModelList = [];
 
   String dropValue = '';
+  String dropValue2 = '';
   bool isSelected = false;
+  bool isSelected2 = false;
   final List<SalesData> chartData = <SalesData>[
     SalesData('Jan', 32),
     SalesData('Feb', 1),
@@ -76,34 +78,70 @@ class _GraphScreenState extends State<GraphScreen> {
                   ],
                 ),
                 showCharts(),
-                DropdownButtonHideUnderline(
-                  child: DropdownButton2(
-                      hint: Text(
-                        dropValue.isNotEmpty ? dropValue : 'Select year',
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.normal),
-                      ),
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                      items: yearModelList
-                          .map((e) => DropdownMenuItem(
-                                value: e.yearName,
-                                child: Text(
-                                  e.yearName,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ))
-                          .toList(),
-                      onChanged: (String? value) {
-                        dropValue = value!;
-                        isSelected = !isSelected;
-                        setState(() {});
-                      }),
+                Row(
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                          hint: Text(
+                            dropValue.isNotEmpty ? dropValue : 'Select Cable',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                          items: yearModelList
+                              .map((e) => DropdownMenuItem(
+                                    value: e.yearName,
+                                    child: Text(
+                                      e.yearName,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ))
+                              .toList(),
+                          onChanged: (String? value) {
+                            dropValue = value!;
+                            isSelected = !isSelected;
+                            setState(() {});
+                          }),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                          hint: Text(
+                            dropValue2.isNotEmpty ? dropValue2 : 'Select Cable',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                          items: yearModelList
+                              .map((e) => DropdownMenuItem(
+                                    value: e.yearName,
+                                    child: Text(
+                                      e.yearName,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ))
+                              .toList(),
+                          onChanged: (String? value) {
+                            dropValue2 = value!;
+                            isSelected2 = !isSelected2;
+                            setState(() {});
+                          }),
+                    ),
+                  ],
                 ),
                 showLineChart(),
               ],
@@ -116,6 +154,13 @@ class _GraphScreenState extends State<GraphScreen> {
 
   Widget showCharts() {
     return SfCartesianChart(
+        title: ChartTitle(
+            text: 'Inversion velocity',
+            textStyle: const TextStyle(
+              color: Colors.yellowAccent,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w700,
+            )),
         plotAreaBorderColor: Colors.yellowAccent,
         enableAxisAnimation: true,
         primaryXAxis: CategoryAxis(),
@@ -139,7 +184,7 @@ class _GraphScreenState extends State<GraphScreen> {
             arrangeByIndex: true, autoScrollingMode: AutoScrollingMode.start),
         // Chart title
         title: ChartTitle(
-            text: 'Half yearly sales analysis',
+            text: 'Prediction',
             textStyle: const TextStyle(
               color: Colors.yellowAccent,
               fontStyle: FontStyle.italic,
@@ -152,7 +197,7 @@ class _GraphScreenState extends State<GraphScreen> {
         series: <LineSeries<SalesData, String>>[
           LineSeries<SalesData, String>(
               color: Colors.yellowAccent,
-              dataSource: isSelected ? chartData : chartData2,
+              dataSource: isSelected2 ? chartData : chartData2,
               xValueMapper: (SalesData sales, _) => sales.year,
               yValueMapper: (SalesData sales, _) => sales.sales,
               // Enable data label
@@ -162,8 +207,14 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
   void yearFunction() {
-    yearModelList.add(YearModel(yearName: '2021'));
-    yearModelList.add(YearModel(yearName: '2022'));
+    yearModelList.add(YearModel(yearName: 'Cable 1'));
+    yearModelList.add(YearModel(yearName: 'Cable 2'));
+    yearModelList.add(YearModel(yearName: 'Cable 3'));
+    yearModelList.add(YearModel(yearName: 'Cable 4'));
+    yearModelList.add(YearModel(yearName: 'Cable 5'));
+    yearModelList.add(YearModel(yearName: 'Cable 6'));
+    yearModelList.add(YearModel(yearName: 'Cable 7'));
+    yearModelList.add(YearModel(yearName: 'Cable 8'));
   }
 }
 
