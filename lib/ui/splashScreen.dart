@@ -23,9 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          tileMode: TileMode.clamp,
+          tileMode: TileMode.repeated,
           begin: Alignment.topCenter,
-          colors: [Colors.white, Colors.white],
+          colors: [Colors.lightBlue, Colors.white],
         ),
       ),
       child: Scaffold(
@@ -37,11 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: size.width * 0.1,
               ),
-              Center(
-                  child: Image.asset(
-                'asset/image/splash.gif',
-                height: 200,
-              )),
+              Card(
+                borderOnForeground: true,
+                shadowColor: Colors.blueGrey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                elevation: 10,
+                color: Colors.blue,
+                child: Center(child: Image.asset('asset/image/graph.png')),
+              ),
               Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -55,14 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                     .shimmer(delay: 500.ms),
               ),
-              const Spacer(),
+              /*  const Spacer(),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.grey,
                     border: Border.all(color: Colors.blueGrey)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width: 150,
@@ -75,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 20,
                             fontStyle: FontStyle.italic),
                       ),
-                    )..animate().slide().scale(),
+                    ),
                     Container(
                       width: 150,
                       padding: EdgeInsets.all(size.width * 0.05),
@@ -90,17 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ).animate().slide().scale()
                   ],
                 ),
-              ),
+              ),*/
               const Spacer(),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
                       padding: EdgeInsets.all(size.width * 0.03),
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          border: Border.all(color: Colors.blueGrey)),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
                       child: const Text('Project PI :- Prof. S.K Sharma',
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -111,9 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                           padding: EdgeInsets.all(size.width * 0.03),
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              border: Border.all(color: Colors.blueGrey)),
+                          decoration: const BoxDecoration(color: Colors.white),
                           child: const Text('Research fellow :- Kadam Mishra',
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,

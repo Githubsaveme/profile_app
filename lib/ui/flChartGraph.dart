@@ -48,14 +48,18 @@ class _LineChartSample2State extends State<LineChartSample2> {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade300,
+        backgroundColor: Colors.white,
         elevation: 1,
         automaticallyImplyLeading: false,
         title: Text(
           "Graph",
           style: TextStyle(
-              fontWeight: FontWeight.w700, fontSize: size.width * 0.05),
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+              fontSize: size.width * 0.04,
+              color: Colors.black),
         ),
+        actions: [Image.asset('asset/image/splash.gif')],
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
@@ -190,7 +194,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                             yValueMapper: (ChartSampleData sales, _) =>
                                 sales.yValue)
                       ])
-                : Container()
+                : Image.asset('asset/image/graph.png')
           ],
         ),
       ),
