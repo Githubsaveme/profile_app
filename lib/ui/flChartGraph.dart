@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:profile_app/ui/graphScreen.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LineChartSample2 extends StatefulWidget {
   const LineChartSample2({super.key});
@@ -12,6 +13,18 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
+  List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: DateTime(2015, 1, 1, 1), yValue: 1.13),
+    ChartSampleData(x: DateTime(2015, 1, 2, 2), yValue: 1.12),
+    ChartSampleData(x: DateTime(2015, 1, 3, 3), yValue: 1.08),
+    ChartSampleData(x: DateTime(2015, 1, 4, 4), yValue: 1.12),
+    ChartSampleData(x: DateTime(2015, 1, 5, 5), yValue: 1.1),
+    ChartSampleData(x: DateTime(2015, 1, 6, 6), yValue: 1.12),
+    ChartSampleData(x: DateTime(2015, 1, 7, 7), yValue: 1.1),
+    ChartSampleData(x: DateTime(2015, 1, 8, 8), yValue: 1.12),
+    ChartSampleData(x: DateTime(2015, 1, 9, 9), yValue: 1.16),
+    ChartSampleData(x: DateTime(2015, 1, 10, 10), yValue: 1.1),
+  ];
   List<Color> gradientColors = [
     Colors.cyan,
     Colors.blue,
@@ -19,6 +32,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
   List<YearModel> yearModelList = [];
 
   bool showAvg = false;
+  bool predictionVar = false;
 
   String dropValue = '';
   bool isSelected = false;
@@ -75,91 +89,138 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DropdownButtonHideUnderline(
-            child: DropdownButton2(
-                hint: Text(
-                  dropValue.isNotEmpty ? dropValue : 'Select Cable',
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DropdownButtonHideUnderline(
+              child: DropdownButton2(
+                  hint: Text(
+                    dropValue.isNotEmpty ? dropValue : 'Select Cable',
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.normal),
+                  ),
                   style: const TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.normal),
-                ),
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w500),
-                items: yearModelList
-                    .map((e) => DropdownMenuItem(
-                          value: e.yearName,
-                          child: Text(
-                            e.yearName,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                      color: Colors.white, fontWeight: FontWeight.w500),
+                  items: yearModelList
+                      .map((e) => DropdownMenuItem(
+                            value: e.yearName,
+                            child: Text(
+                              e.yearName,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (String? value) {
-                  dropValue = value!;
-                  isSelected = !isSelected;
-                  setState(() {});
-                }),
-          ),
-          Stack(
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1.70,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: 18,
-                    left: 12,
-                    top: 24,
-                    bottom: 12,
-                  ),
-                  child: LineChart(
-                    showAvg ? avgData() : mainData(),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 60,
-                height: 34,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      showAvg = !showAvg;
-                    });
-                  },
-                  child: Text(
-                    'avg',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: showAvg
-                          ? Colors.black.withOpacity(0.5)
-                          : Colors.black,
+                          ))
+                      .toList(),
+                  onChanged: (String? value) {
+                    dropValue = value!;
+                    isSelected = !isSelected;
+                    setState(() {});
+                  }),
+            ),
+            Stack(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.70,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 18,
+                      left: 12,
+                      top: 24,
+                      bottom: 12,
+                    ),
+                    child: LineChart(
+                      showAvg ? avgData() : mainData(),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const Divider(thickness: 10, color: Colors.grey),
-        ],
+                SizedBox(
+                  width: 60,
+                  height: 34,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        showAvg = !showAvg;
+                      });
+                    },
+                    child: Text(
+                      'avg',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: showAvg
+                            ? Colors.black.withOpacity(0.5)
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: size.width * 0.04),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          predictionVar ? Colors.blue : Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7),
+                      )),
+                  onPressed: () {
+                    predictionVar = !predictionVar;
+                    setState(() {});
+                  },
+                  child: Text(
+                    "Prediction",
+                    style: TextStyle(
+                        color: predictionVar ? Colors.white : Colors.white),
+                  )),
+            ),
+            predictionVar
+                ? SfCartesianChart(
+                    primaryXAxis: DateTimeAxis(),
+                    series: <ChartSeries<ChartSampleData, DateTime>>[
+                        LineSeries<ChartSampleData, DateTime>(
+                            dataSource: chartData,
+                            xValueMapper: (ChartSampleData sales, _) => sales.x,
+                            yValueMapper: (ChartSampleData sales, _) =>
+                                sales.yValue)
+                      ])
+                : Container()
+          ],
+        ),
       ),
     );
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
+      color: Colors.grey,
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 10,
     );
     Widget text;
-    DateTime now = DateTime.now();
+    /* DateTime now = DateTime.now();
     String dateFormatted = DateFormat.MMM().format(now);
-    text = Text(dateFormatted);
+    text = Text(dateFormatted);*/
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('MAR', style: style);
+        break;
+      case 5:
+        text = const Text('JUN', style: style);
+        break;
+      case 8:
+        text = const Text('SEP', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
 
     return SideTitleWidget(
       space: 1,
@@ -170,8 +231,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
+      color: Colors.grey,
       fontWeight: FontWeight.bold,
-      fontSize: 15,
+      fontSize: 10,
     );
     String text;
     switch (value.toInt()) {
@@ -194,19 +256,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
+        show: false,
+        drawVerticalLine: false,
         horizontalInterval: 1,
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
             color: Colors.green,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.redAccent,
             strokeWidth: 1,
           );
         },
@@ -232,7 +288,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             showTitles: true,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedSize: 30,
           ),
         ),
       ),
@@ -384,4 +440,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
     yearModelList.add(YearModel(yearName: 'Cable 7'));
     yearModelList.add(YearModel(yearName: 'Cable 8'));
   }
+}
+
+class ChartSampleData {
+  late DateTime x;
+  late double yValue;
+
+  ChartSampleData({required this.x, required this.yValue});
 }
