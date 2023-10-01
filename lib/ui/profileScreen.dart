@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:profile_app/ui/graphScreen.dart';
+import 'package:profile_app/ui/flChartGraph.dart';
 
-class MyProfileScreen extends StatefulWidget {
-  const MyProfileScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _MyProfileScreenState createState() => _MyProfileScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _MyProfileScreenState extends State<MyProfileScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
@@ -23,13 +23,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     Timer(
         const Duration(seconds: 5),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const GraphScreen())));
+            builder: (BuildContext context) => const LineChartSample2())));
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           tileMode: TileMode.clamp,
           begin: Alignment.topCenter,
-          colors: [Colors.white30, Colors.white],
+          colors: [Colors.white, Colors.white],
         ),
       ),
       child: Scaffold(
