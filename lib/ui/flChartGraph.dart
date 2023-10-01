@@ -1,7 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:profile_app/ui/graphScreen.dart';
 
 class LineChartSample2 extends StatefulWidget {
@@ -33,90 +33,120 @@ class _LineChartSample2State extends State<LineChartSample2> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: CupertinoColors.white,
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: size.width * 0.02),
-        child: Column(
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade300,
+        elevation: 1,
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Graph",
+          style: TextStyle(
+              fontWeight: FontWeight.w700, fontSize: size.width * 0.05),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(height: size.width * 0.1),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {}, child: const Text("Load Data")),
-                const Expanded(child: SizedBox()),
-                ElevatedButton(onPressed: () {}, child: const Text("Plot Data"))
-              ],
-            ),
-            DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                  hint: Text(
-                    dropValue.isNotEmpty ? dropValue : 'Select Cable',
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.normal),
-                  ),
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500),
-                  items: yearModelList
-                      .map((e) => DropdownMenuItem(
-                            value: e.yearName,
-                            child: Text(
-                              e.yearName,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ))
-                      .toList(),
-                  onChanged: (String? value) {
-                    dropValue = value!;
-                    isSelected = !isSelected;
-                    setState(() {});
-                  }),
-            ),
-            Stack(
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.70,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 18,
-                      left: 12,
-                      top: 24,
-                      bottom: 12,
-                    ),
-                    child: LineChart(
-                      showAvg ? avgData() : mainData(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 60,
-                  height: 34,
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        showAvg = !showAvg;
-                      });
-                    },
-                    child: Text(
-                      'avg',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: showAvg
-                            ? Colors.black.withOpacity(0.5)
-                            : Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    )),
+                onPressed: () {},
+                child: const Text(
+                  "Load Data",
+                  style: TextStyle(color: Colors.white),
+                )),
+            const Expanded(child: SizedBox()),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    )),
+                onPressed: () {},
+                child: const Text(
+                  "Plot Data",
+                  style: TextStyle(color: Colors.white),
+                ))
           ],
         ),
+      ),
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DropdownButtonHideUnderline(
+            child: DropdownButton2(
+                hint: Text(
+                  dropValue.isNotEmpty ? dropValue : 'Select Cable',
+                  style: const TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.normal),
+                ),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w500),
+                items: yearModelList
+                    .map((e) => DropdownMenuItem(
+                          value: e.yearName,
+                          child: Text(
+                            e.yearName,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (String? value) {
+                  dropValue = value!;
+                  isSelected = !isSelected;
+                  setState(() {});
+                }),
+          ),
+          Stack(
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: 1.70,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: 18,
+                    left: 12,
+                    top: 24,
+                    bottom: 12,
+                  ),
+                  child: LineChart(
+                    showAvg ? avgData() : mainData(),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 60,
+                height: 34,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      showAvg = !showAvg;
+                    });
+                  },
+                  child: Text(
+                    'avg',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: showAvg
+                          ? Colors.black.withOpacity(0.5)
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Divider(thickness: 10, color: Colors.grey),
+        ],
       ),
     );
   }
@@ -127,22 +157,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
       fontSize: 16,
     );
     Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
+    DateTime now = DateTime.now();
+    String dateFormatted = DateFormat.MMM().format(now);
+    text = Text(dateFormatted);
 
     return SideTitleWidget(
+      space: 1,
       axisSide: meta.axisSide,
       child: text,
     );
